@@ -1,5 +1,6 @@
 package com.example.waterbase.pbd;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -77,7 +78,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
+                        .setContentIntent(pendingIntent)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setVibrate(new long[0])
+                        .setPriority(NotificationManager.IMPORTANCE_HIGH);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -86,7 +90,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId,
                     "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
 

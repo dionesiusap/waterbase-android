@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
                         String token = task.getResult().getToken();
 
                         // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                        String msg = getString(R.string.msg_token_fmt, token);
+//                        Log.d(TAG, msg);
+//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
