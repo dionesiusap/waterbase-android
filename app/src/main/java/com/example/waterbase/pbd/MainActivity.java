@@ -42,7 +42,14 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mAuth = FirebaseAuth.getInstance();
-    btnSignIn = (SignInButton) findViewById(R.id.sign_in_button);
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        btnSignIn = (SignInButton) findViewById(R.id.sign_in_button);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
     }
 
     @Override
@@ -51,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 //        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        if(currentUser != null){
+            Intent intent = new Intent(MainActivity.this, FragmentActivity.class);
+//            Log.d(this.getClass().getSimpleName(),currentUser.getDisplayName());
+//            intent.putExtra("currentUser", currentUser);
+            startActivity(intent);
+        }
+
     }
 
     private void signIn() {
@@ -88,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
+                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Snackbar.make(findViewById(R.id.activity_main), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-//                            updateUI(null);
+                            updateUI(null);
                         }
 
                         // ...
