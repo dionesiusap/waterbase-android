@@ -24,8 +24,9 @@ public class FragmentActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_main);
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Log.d(this.getClass().getSimpleName(),user.getDisplayName());
-        // Create an instance of the tab layout from the view.
+//        Log.d(this.getClass().getSimpleName(),user.getDisplayName());
+//        Log.d(this.getClass().getSimpleName(),user.getIdToken(true).getResult().getToken()  );
+        //// Create an instance of the tab layout from the view.
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         // Set the text for each tab.
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label1));
