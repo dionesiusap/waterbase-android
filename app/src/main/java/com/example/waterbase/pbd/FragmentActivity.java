@@ -14,6 +14,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class FragmentActivity extends AppCompatActivity {
+    private Intent barometerIntent;
+    private static float groundFloorBaseline =(float) 922.0;
+
+    public static void setGroundFloorBaseline(float baseline) {
+        groundFloorBaseline = baseline;
+    }
+
+    public static float getGroundFloorBaseline() {
+        return groundFloorBaseline;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,5 +71,8 @@ public class FragmentActivity extends AppCompatActivity {
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
+        barometerIntent = new Intent(getApplicationContext(), BarometerReaderService.class);
+        startService(barometerIntent);
+        Log.d("FragmentActivity", "started Barometer service");
     }
 }

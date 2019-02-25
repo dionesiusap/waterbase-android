@@ -7,10 +7,43 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <Button
-        android:id="@+id/aboutUs_button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        android:text="Button" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/section_title"
+            android:id="@+id/resetFloor_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset Ground Floor Baseline" />
+
+        <TextView
+            android:id="@+id/resetFloor_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="While standing on ground floor, hold your phone still for 3 seconds, then tap Reset." />
+
+        <Button
+            android:id="@+id/resetFloor_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset" />
+
+        <TextView
+            style="@style/section_title"
+            android:id="@+id/aboutUs_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About Us" />
+
+        <Button
+            android:id="@+id/aboutUs_button"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:text="Our Website" />
+    </LinearLayout>
+
 
 </FrameLayout>
