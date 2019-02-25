@@ -2,13 +2,23 @@ package com.example.waterbase.pbd;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,19 +29,24 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.Set;
 
 import static android.content.Context.ALARM_SERVICE;
 
 
-public class Alarm extends Fragment {
+public class Alarm extends Fragment implements LocationListener {
     AlarmManager alarmManager;
     PendingIntent alarmIntent;
 
@@ -41,6 +56,7 @@ public class Alarm extends Fragment {
     private Alarm inst;
     private TextView alarmTextView;
 
+    LocationManager locationManager;
     public Alarm() {
         // Required empty public constructor
     }
@@ -71,7 +87,6 @@ public class Alarm extends Fragment {
                 addNewAlarm(v);
             }
         });
-
         alarmPreference = getContext().getSharedPreferences("alarmPref", Context.MODE_PRIVATE);
         Set<String> alarmIdSet = alarmPreference.getStringSet("alarmList", new HashSet<String>());
 
@@ -80,6 +95,12 @@ public class Alarm extends Fragment {
                 appendNewAlarmView(getOldAlarmView((Integer.parseInt(id))));
             }
         }
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+
+        }
+        getLocation();
     }
 
     public void addNewAlarm(View v) {
@@ -141,6 +162,47 @@ public class Alarm extends Fragment {
         alarmTextView.setText(alarmText);
     }
 
+    void getLocation() {
+        try {
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+//        locationText.setText("Latitude: " + location.getLatitude() + "\n Longitude: " + location.getLongitude());
+
+        try {
+            Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            //TODO:: pindahin masukan ke text view di alarm
+            Toast.makeText(getActivity(), addresses.get(0).getAddressLine(0)+", "+ addresses.get(0).getAddressLine(1)+", "+addresses.get(0).getAddressLine(2), Toast.LENGTH_SHORT).show();
+//            locationText.setText(locationText.getText() + "\n"+addresses.get(0).getAddressLine(0)+", "+
+//                    addresses.get(0).getAddressLine(1)+", "+addresses.get(0).getAddressLine(2));
+        }catch(Exception e)
+        {
+
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+        Toast.makeText(getActivity(), "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+    }
     @Override
     public void onDestroyView () {
         super.onDestroyView();
@@ -158,4 +220,5 @@ public class Alarm extends Fragment {
         alarmEditor.putStringSet("alarmList", alarmIdSet);
         alarmEditor.commit();
     }
+}
 }

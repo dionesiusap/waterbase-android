@@ -1,6 +1,13 @@
 package com.example.waterbase.pbd;
-
+import android.support.v4.app.ActivityCompat;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -29,12 +36,16 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
     private SignInButton btnSignIn;
     private static final String TAG = MainActivity.class.getSimpleName();
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 007;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
     }
 
     @Override
@@ -138,5 +151,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
 }
