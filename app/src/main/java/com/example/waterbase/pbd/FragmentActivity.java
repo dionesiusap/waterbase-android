@@ -1,7 +1,10 @@
 package com.example.waterbase.pbd;
 
+import android.content.pm.PackageManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
@@ -22,8 +25,8 @@ public class FragmentActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         setContentView(R.layout.fragment_main);
-        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        android.support.v7.widget.Toolbar toolbar = findViewById(g);
+//        setSupportActionBar(toolbar);
 //        Log.d(this.getClass().getSimpleName(),user.getDisplayName());
 //        Log.d(this.getClass().getSimpleName(),user.getIdToken(true).getResult().getToken()  );
         //// Create an instance of the tab layout from the view.
@@ -61,5 +64,7 @@ public class FragmentActivity extends AppCompatActivity {
                     public void onTabReselected(TabLayout.Tab tab) {
                     }
                 });
+
+
     }
 }
