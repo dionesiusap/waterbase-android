@@ -13,8 +13,39 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/serverIp_title"
             style="@style/section_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Server Address" />
+
+        <TextView
+            android:id="@+id/serverIp_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Type in your server address (IP address or URL) in the field below." />
+
+        <TextView
+            android:id="@+id/serverIp_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Address: " />
+
+        <EditText
+            android:id="@+id/serverIp_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Server Address"
+            android:inputType="textUri" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="18dp" />
+
+        <TextView
             android:id="@+id/resetFloor_title"
+            style="@style/section_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Reset Ground Floor Baseline" />
@@ -23,26 +54,47 @@
             android:id="@+id/resetFloor_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="While standing on ground floor, hold your phone still for 3 seconds, then tap Reset." />
+            android:text="While standing on ground floor, hold your phone still for 3 seconds, then tap the button below." />
 
         <Button
             android:id="@+id/resetFloor_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reset" />
+            android:text="This is Ground Floor" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="18dp" />
 
         <TextView
+            android:id="@+id/saveConfig_title"
             style="@style/section_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Configurations" />
+
+        <Button
+            android:id="@+id/saveConfig_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="18dp" />
+
+        <TextView
             android:id="@+id/aboutUs_title"
+            style="@style/section_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="About Us" />
 
         <Button
             android:id="@+id/aboutUs_button"
-            android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:text="Our Website" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visit Our Website" />
     </LinearLayout>
 
 

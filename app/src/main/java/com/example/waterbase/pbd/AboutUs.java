@@ -11,8 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class AboutUs extends Fragment {
+    private EditText serverIp;
+    private TextView serverIpInfo;
 
     public AboutUs() {
         // Required empty public constructor
@@ -46,6 +52,22 @@ public class AboutUs extends Fragment {
             public void onClick(View view) {
                 FragmentActivity.setGroundFloorBaseline(BarometerReaderService.getSensorValue());
                 Log.d("SETTINGS", "GF baseline: " + FragmentActivity.getGroundFloorBaseline());
+            }
+        });
+
+        Button saveConfig = view.findViewById(R.id.saveConfig_button);
+        serverIp = view.findViewById(R.id.serverIp_field);
+        serverIpInfo = view.findViewById(R.id.serverIp_info);
+        serverIpInfo.setText("Current Address: " + FragmentActivity.getServerUrl());
+        saveConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String serverIpValue = serverIp.getText().toString();
+
+                FragmentActivity.setServerUrl(serverIpValue);
+                serverIpInfo.setText("Current Address: " + FragmentActivity.getServerUrl());
+
+                Log.d("SETTINGS", "Server IP Value: " + FragmentActivity.getServerUrl());
             }
         });
     }
