@@ -28,6 +28,7 @@ import java.util.Calendar;
 public class AlarmWakeActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
+    private Sensor mAccelerometer;
     private final float SHAKE_THRESHOLD = 500;
     private long lastUpdate;
     private float last_x;
@@ -45,15 +46,19 @@ public class AlarmWakeActivity extends AppCompatActivity implements SensorEventL
         TextView timeView = findViewById(R.id.wake_time);
         timeView.setText(Integer.toString(hour) + ":" + Integer.toString(minute));
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         last_x = last_y = last_z = 0;
         playRingtone();
     }
 
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
     public void playRingtone() {
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
     }
@@ -73,9 +78,10 @@ public class AlarmWakeActivity extends AppCompatActivity implements SensorEventL
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        Toast.makeText(getApplicationContext(), Float.toString(event.values[0]), Toast.LENGTH_SHORT).show();
         long curTime = System.currentTimeMillis();
         // only allow one update every 100ms.
-        if ((curTime - lastUpdate) > 100) {
+        if ((curTime - lastUpdate) > 500) {
             long diffTime = (curTime - lastUpdate);
             lastUpdate = curTime;
 
