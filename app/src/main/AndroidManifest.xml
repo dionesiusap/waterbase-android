@@ -48,6 +48,11 @@
             android:theme="@style/AppTheme"></activity>
     </application>
 
-    <uses-feature android:name="android.hardware.sensor.barometer" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.sensor.barometer"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
 
 </manifest>
