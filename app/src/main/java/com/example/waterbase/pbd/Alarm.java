@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -70,23 +72,24 @@ public class Alarm extends Fragment {
     public void addNewAlarm(View v) {
         Calendar mCurrentTime = Calendar.getInstance();
 
-        LayoutInflater inflater =  LayoutInflater.from(getActivity());
+        LayoutInflater inflater =  LayoutInflater.from(getContext());
         final View newAlarmEntry = inflater.inflate(R.layout.alarm_card, null, false);
         newAlarmEntry.setId(alarmEntry.size());
         alarmEntry.add(newAlarmEntry);
-        ScrollView mainView = (ScrollView) getView();
-        mainView.addView(newAlarmEntry);
+        LinearLayout alarmView = (LinearLayout) getView().findViewById(R.id.alarm_main_layout);
+        alarmView.addView(newAlarmEntry);
 
         int hour = mCurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mCurrentTime.get(Calendar.MINUTE);
-        TimePickerDialog mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
-                TextView timeView = newAlarmEntry.findViewById(R.id.time);
+                TextView timeView = newAlarmEntry.findViewById(R.id.text_time);
                 timeView.setText(Integer.toString(hour) + ":" + Integer.toString(minute));
                 addNewAlarmService(hour, minute);
             }
         }, hour, minute, true);
+        mTimePicker.show();
     }
 
     public void addNewAlarmService(int hour, int minute) {
