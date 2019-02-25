@@ -11,6 +11,7 @@
         android:id="@+id/aboutUs_button"
         android:layout_width="match_parent"
         android:layout_height="59dp"
-        android:text="Button" />
+        android:text="About Us"
+        android:layout_gravity="center_vertical"/>
 
 </FrameLayout>
