@@ -55,8 +55,7 @@ public class FragmentActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         // Setting a listener for clicks.
-        viewPager.addOnPageChangeListener(new
-                TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(
                 new TabLayout.OnTabSelectedListener() {
                     @Override

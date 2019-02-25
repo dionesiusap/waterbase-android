@@ -13,16 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.waterbase.pbd.MainActivity">
-        </activity>
-        <activity
-            android:name=".FragmentActivity"
-            android:screenOrientation="portrait">
+        <activity android:name="com.example.waterbase.pbd.FragmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--<activity-->
+            <!--android:name=".FragmentActivity"-->
+            <!--android:screenOrientation="portrait"-->
+        <!--/>-->
         <service android:name="com.example.waterbase.pbd.AlarmService">
             android:enabled="true"
         </service>
