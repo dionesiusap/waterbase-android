@@ -23,7 +23,7 @@ public class BarometerReaderService extends Service implements SensorEventListen
     private SensorManager sensorManager = null;
     private Sensor sensor = null;
 
-    private static float sensorValue = (float) 0.0;
+    private static float sensorValue = (float) 922.0;
 
     private int currentFloor = 0;
     private int previousFloor = 0;
@@ -107,6 +107,6 @@ public class BarometerReaderService extends Service implements SensorEventListen
                 }
             }
         );
-        HttpRequestApplication.getInstance().addToRequestQueue(jsonObjReq, "OnOffRequest");
+        HttpRequestApplication.getInstance().addToRequestQueue(jsonObjReq, "FloorRequest");
     }
 }
