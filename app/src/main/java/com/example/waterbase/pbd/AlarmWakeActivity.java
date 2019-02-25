@@ -1,8 +1,19 @@
 package com.example.waterbase.pbd;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,11 +21,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class AlarmWakeActivity extends AppCompatActivity implements SensorEventListener {
 
+    private SensorManager sensorManager;
+    private final float SHAKE_THRESHOLD = 500;
+    private long lastUpdate;
+    private float last_x;
+    private float last_y;
+    private float last_z;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +44,55 @@ public class AlarmWakeActivity extends AppCompatActivity implements SensorEventL
 
         TextView timeView = findViewById(R.id.wake_time);
         timeView.setText(Integer.toString(hour) + ":" + Integer.toString(minute));
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        last_x = last_y = last_z = 0;
+        playRingtone();
     }
 
+    public void playRingtone() {
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        r.play();
+    }
+
+//    public void playRingtone() {
+//        Uri myUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);; // initialize Uri here
+//        MediaPlayer mediaPlayer = new MediaPlayer();
+//        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        try {
+//            mediaPlayer.setDataSource(getApplicationContext(), myUri);
+//            mediaPlayer.prepare();
+//            mediaPlayer.start();
+//        } catch (Exception e) {
+//
+//        }
+//    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        long curTime = System.currentTimeMillis();
+        // only allow one update every 100ms.
+        if ((curTime - lastUpdate) > 100) {
+            long diffTime = (curTime - lastUpdate);
+            lastUpdate = curTime;
 
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            float speed = Math.abs(x+y+z - last_x - last_y - last_z) / diffTime * 10000;
+
+            if (speed > SHAKE_THRESHOLD) {
+                this.finish();
+            }
+
+            last_x = x;
+            last_y = y;
+            last_z = z;
+        }
     }
 
     @Override

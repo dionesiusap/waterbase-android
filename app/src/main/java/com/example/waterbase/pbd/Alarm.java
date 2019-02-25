@@ -15,6 +15,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -106,15 +107,15 @@ public class Alarm extends Fragment implements LocationListener {
     public void addNewAlarm(View v) {
         Calendar mCurrentTime = Calendar.getInstance();
 
-        final int alarmId = alarmEntry.size();
-        final View newAlarmEntry = getNewAlarmView(alarmId);
-        appendNewAlarmView(newAlarmEntry);
-
         int hour = mCurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mCurrentTime.get(Calendar.MINUTE);
         TimePickerDialog mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
+                final int alarmId = alarmEntry.size();
+                final View newAlarmEntry = getNewAlarmView(alarmId);
+                appendNewAlarmView(newAlarmEntry);
+
                 TextView timeView = newAlarmEntry.findViewById(R.id.text_time);
                 timeView.setText(Integer.toString(hour) + ":" + Integer.toString(minute));
                 addNewAlarmService(hour, minute, alarmId);
@@ -153,7 +154,7 @@ public class Alarm extends Fragment implements LocationListener {
         calendar.set(Calendar.MINUTE, minute);
 
         Intent intent = new Intent(getContext(), AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        alarmIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
     }
@@ -179,8 +180,9 @@ public class Alarm extends Fragment implements LocationListener {
         try {
             Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            //TODO:: pindahin masukan ke text view di alarm
             Toast.makeText(getActivity(), addresses.get(0).getAddressLine(0)+", "+ addresses.get(0).getAddressLine(1)+", "+addresses.get(0).getAddressLine(2), Toast.LENGTH_SHORT).show();
+            TextView locationText = getView().findViewById(R.id.alarm_location);
+            locationText.setText(addresses.get(0).getAddressLine(0)+", "+ addresses.get(0).getAddressLine(1)+", "+addresses.get(0).getAddressLine(2));
 //            locationText.setText(locationText.getText() + "\n"+addresses.get(0).getAddressLine(0)+", "+
 //                    addresses.get(0).getAddressLine(1)+", "+addresses.get(0).getAddressLine(2));
         }catch(Exception e)
@@ -220,5 +222,4 @@ public class Alarm extends Fragment implements LocationListener {
         alarmEditor.putStringSet("alarmList", alarmIdSet);
         alarmEditor.commit();
     }
-}
 }
