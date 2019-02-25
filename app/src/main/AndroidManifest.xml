@@ -13,23 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.waterbase.pbd.MainActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity
-            android:name=".FragmentActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-        >
+        <activity android:name="com.example.waterbase.pbd.FragmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--<activity-->
+            <!--android:name=".FragmentActivity"-->
+            <!--android:screenOrientation="portrait"-->
+        <!--/>-->
         <service android:name="com.example.waterbase.pbd.AlarmService">
             android:enabled="true"
         </service>
@@ -40,7 +33,19 @@
             </intent-filter>
         </service>
 
+        <service android:name=".BarometerReaderService">
+            android:enabled="true"
+        </service>
+
         <receiver android:name="com.example.waterbase.pbd.AlarmReceiver" />
+
     </application>
+
+    <uses-feature
+        android:name="android.hardware.sensor.barometer"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
 
 </manifest>

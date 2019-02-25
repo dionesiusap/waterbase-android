@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,15 @@ public class AboutUs extends Fragment {
                 Uri webpage = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 startActivity(intent);
+            }
+        });
+
+        Button resetFloor = view.findViewById(R.id.resetFloor_button);
+        resetFloor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentActivity.setGroundFloorBaseline(BarometerReaderService.getSensorValue());
+                Log.d("SETTINGS", "GF baseline: " + FragmentActivity.getGroundFloorBaseline());
             }
         });
     }
