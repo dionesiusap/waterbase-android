@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 public class AboutUs extends Fragment {
     private EditText serverIp;
     private TextView serverIpInfo;
+    private CheckBox useHttps;
 
     public AboutUs() {
         // Required empty public constructor
@@ -39,7 +41,7 @@ public class AboutUs extends Fragment {
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "http://www.google.com";
+                String url = "http://www.acyril.com";
                 Uri webpage = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 startActivity(intent);
@@ -58,13 +60,27 @@ public class AboutUs extends Fragment {
         Button saveConfig = view.findViewById(R.id.saveConfig_button);
         serverIp = view.findViewById(R.id.serverIp_field);
         serverIpInfo = view.findViewById(R.id.serverIp_info);
+        useHttps = view.findViewById(R.id.serverIp_useHttps);
         serverIpInfo.setText("Current Address: " + FragmentActivity.getServerUrl());
         saveConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String serverIpValue = serverIp.getText().toString();
 
-                FragmentActivity.setServerUrl(serverIpValue);
+                serverIpValue.replace("https://", "");
+                serverIpValue.replace("http://", "");
+
+                if (useHttps.isChecked()) {
+                    serverIpValue = "https://" + serverIpValue;
+                }
+                else {
+                    serverIpValue = "http://" + serverIpValue;
+                }
+
+                if (!serverIpValue.equals(new String())) {
+                    FragmentActivity.setServerUrl(serverIpValue);
+                }
+
                 serverIpInfo.setText("Current Address: " + FragmentActivity.getServerUrl());
 
                 Log.d("SETTINGS", "Server IP Value: " + FragmentActivity.getServerUrl());

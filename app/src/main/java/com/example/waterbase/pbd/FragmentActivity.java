@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class FragmentActivity extends AppCompatActivity {
     private Intent barometerIntent;
     private static float groundFloorBaseline =(float) 922.0;
-    private static String serverUrl = "localhost:8080";
+    private static String serverUrl = "https://localhost:8080";
 
     public static void setGroundFloorBaseline(float baseline) {
         groundFloorBaseline = baseline;
