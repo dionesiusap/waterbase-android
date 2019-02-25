@@ -221,4 +221,3 @@ public class Alarm extends Fragment implements LocationListener {
         alarmEditor.commit();
     }
 }
-}
