@@ -10,6 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
 import java.util.LinkedList;
 
 public class LightbulbListAdapter extends
@@ -59,20 +66,42 @@ public class LightbulbListAdapter extends
         }
         @Override
         public void onClick(View view) {
+            String url;
             if(lightbulpItemView.getText().toString().contains("A/C")){
                 if(mImageView.getDrawable().getConstantState() == view.getResources().getDrawable(R.drawable.acnyala).getConstantState()){
+                    // create GETJSONRequest to server
+                    url = FragmentActivity.getServerUrl() + "/ac/1";
                     mImageView.setImageResource(R.drawable.acmati);
                 }else{
+                    url = FragmentActivity.getServerUrl() + "/ac/0";
                     mImageView.setImageResource(R.drawable.acnyala);
                 }
             }else{
+                String lightId = lightbulpItemView.getText().toString().replace(' ', '-');
                 if(mImageView.getDrawable().getConstantState() == view.getResources().getDrawable(R.drawable.ic_lampu_mati).getConstantState()){
+                    url = FragmentActivity.getServerUrl() + "/" + lightId + "/1";
                     mImageView.setImageResource(R.drawable.ic_lampu_nyala);
                 }else{
+                    url = FragmentActivity.getServerUrl() + "/" + lightId + "/0";
                     mImageView.setImageResource(R.drawable.ic_lampu_mati);
                 }
             }
 
+            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        //Success callback
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Failure Callback
+                    }
+                }
+            );
+            HttpRequestApplication.getInstance().addToRequestQueue(jsonObjReq, "OnOffRequest");
         }
     }
 }
